@@ -53,7 +53,11 @@ app.use(morgan('combined', {stream: accessLogStream}));
 app.use(express.static('public'));
 
 app.get('/movies', (req, res) => {
-    res.json(topTenMovies);
+    let movieListHTML = '<h2>Top Ten Movies:</h2>';
+    topTenMovies.forEach(movie => {
+        movieListHTML += `<p><strong>Title:</strong> ${movie.title}<br><strong>Director:</strong> ${movie.Director}</p>`;
+    });
+    res.send(movieListHTML);
 });
 
 app.get('/', (req, res) => {
