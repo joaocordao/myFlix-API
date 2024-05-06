@@ -27,6 +27,7 @@
     <th>Operation</th>
     <th>Request</th>
     <th>URL</th>
+    <th>Request Body</th>
     <th>Response</th>
   </tr>
   <tr>
@@ -36,74 +37,72 @@
     <td>List of movies</td>
   </tr>
   <tr>
-    <td>Return data about a single movie by title</td>
+    <td>Return data about a single movie by ID</td>
     <td>GET</td>
-    <td>/movies/:title</td>
-    <td>GET</td>
-    <td>None</td>
+    <td>/movies/id/:idNumber</td>
     <td>N/A</td>
     <td>Data of the movie</td>
   </tr>
   <tr>
     <td>Return data about a genre by name</td>
     <td>GET</td>
-    <td>/genres/:name</td>
-    <td>GET</td>
-    <td>None</td>
+    <td>/genres/:genreName</td>
     <td>N/A</td>
     <td>Data of the genre</td>
   </tr>
   <tr>
     <td>Return data about a director by name</td>
     <td>GET</td>
-    <td>/directors/:name</td>
-    <td>GET</td>
-    <td>None</td>
+    <td>/directors/:directorName</td>
     <td>N/A</td>
     <td>Data of the director</td>
   </tr>
   <tr>
     <td>Allow new users to register</td>
     <td>POST</td>
-    <td>/users/register</td>
-    <td>POST</td>
-    <td>None</td>
-    <td>{ "email": "example@example.com", "password": "password123" }</td>
+    <td>/users</td>
+    <td>{ "Username": "example", "Password": "password", "Email": "example@example.com", "Birthday": "1990-01-01" }</td> 
     <td>Confirmation message</td>
+  </tr>
+  <tr>
+    <td>Return a list of All Users</td>
+    <td>GET</td>
+    <td>/users</td>
+    <td>N/A</td>
+    <td>List of users</td>
   </tr>
   <tr>
     <td>Allow users to update their user info</td>
     <td>PUT</td>
     <td>/users/:userId</td>
-    <td>PUT</td>
-    <td>None</td>
-    <td>{ "username": "newUsername" }</td>
+    <td>{ "Username": "newUsername", "Password": "newPassword", "Email": "new@example.com", "Birthday": "1995-01-01" }</td>
     <td>Confirmation message</td>
+  </tr>
+  <tr>
+    <td>Return data about a user by username</td>
+    <td>GET</td>
+    <td>/users/:Username</td>
+    <td>N/A</td>
+    <td>Data of the user</td>
   </tr>
   <tr>
     <td>Allow users to add a movie to their list of favorites</td>
     <td>POST</td>
-    <td>/users/:userId/favorites</td>
-    <td>POST</td>
-    <td>None</td>
-    <td>{ "movieId": "123456" }</td>
+    <td>/users/:username/movies/:movieName</td>
+    <td>N/A</td>
     <td>Confirmation message</td>
   </tr>
   <tr>
     <td>Allow users to remove a movie from their list of favorites</td>
     <td>DELETE</td>
-    <td>/users/:userId/favorites/:movieId</td>
-    <td>DELETE</td>
-    <td>None</td>
+    <td>/users/:username/movies/:movieId</td>
     <td>N/A</td>
     <td>Confirmation message</td>
   </tr>
   <tr>
     <td>Allow existing users to deregister</td>
     <td>DELETE</td>
-    <td>/users/:userId</td>
-    <td>DELETE</td>
-    <td>None</td>
+    <td>/users/:Username</td>
     <td>N/A</td>
     <td>Confirmation message</td>
   </tr>
