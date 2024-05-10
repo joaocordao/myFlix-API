@@ -226,13 +226,13 @@ app.delete('/users/:username/movies/:movieID', (req, res) => {
   });
 
 // READ
-app.get('/movies', (req, res) => {
-    let movieListHTML = '<h2>Top Ten Movies:</h2>';
-    movies.forEach(movie => {
-        movieListHTML += `<p><strong>Title:</strong> ${movie.Title}<br><strong>Director:</strong> ${movie.Director}<br><strong>Genre:</strong> ${movie.Genre}</p>`;
-    });
-    res.send(movieListHTML);
-});
+//app.get('/movies', (req, res) => {
+//    let movieListHTML = '<h2>Top Ten Movies:</h2>';
+//    movies.forEach(movie => {
+//        movieListHTML += `<p><strong>Title:</strong> ${movie.Title}<br><strong>Director:</strong> ${movie.Director}<br><strong>Genre:</strong> ${movie.Genre}</p>`;
+//    });
+//    res.send(movieListHTML);
+//});
 
 app.get('/', (req, res) => {
     res.send('Welcome to MyFlix, movie lovers of the World!')
