@@ -37,9 +37,9 @@
     <td>List of movies</td>
   </tr>
   <tr>
-    <td>Return data about a single movie by ID</td>
+    <td>Return data about a single movie by Title</td>
     <td>GET</td>
-    <td>/movies/id/:idNumber</td>
+    <td>/movies/:title</td>
     <td>N/A</td>
     <td>Data of the movie</td>
   </tr>
@@ -49,8 +49,15 @@
     <td>/genres/:genreName</td>
     <td>N/A</td>
     <td>Data of the genre</td>
-  </tr>
-  <tr>
+</tr>
+<tr>
+    <td>Return data about all genres</td>
+    <td>GET</td>
+    <td>/genres</td>
+    <td>N/A</td>
+    <td>List of all genres</td>
+</tr>
+ <tr>
     <td>Return data about a director by name</td>
     <td>GET</td>
     <td>/directors/:directorName</td>

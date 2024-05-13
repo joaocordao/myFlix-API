@@ -30,29 +30,43 @@ app.get('/movies', async (req, res) => {
     });
 });
 
-// GET data about a Movie by ID
-app.get('/movies/id/:idNumber', async(req, res) => {
-    await Movies.findOne({_id: req.params.idNumber})
-    .then((movies) => {
-      res.status(201).json(movies)
-    })
-    .catch((err)=>{
-      console.error(err);
-      res.status(500).send('Error: ' + err)
-    });
+// GET data about a Movie by Title
+app.get('/movies/:movieTitle', async(req, res) => {
+  await Movies.findOne({Title: req.params.movieTitle})
+  .then((movie) => {
+    res.status(200).json(movie);
+  })
+  .catch((err)=>{
+    console.error(err);
+    res.status(500).send('Error: ' + err);
+  });
 });
 
 // GET data about a Genre
 app.get('/genre/:genreName', async(req, res) => {
-    await Genres.findOne({name: req.params.genreName})
-    .then((genre) =>{
-      res.status(201).json(genre)
-    })
-    .catch((err) =>{
-      console.log(err);
-      res.send(500).send('Error: ' + err)
-    });
+  await Genres.findOne({name: req.params.genreName})
+  .then((genre) =>{
+    res.status(201).json(genre)
+  })
+  .catch((err) =>{
+    console.log(err);
+    res.send(500).send('Error: ' + err)
+  });
 });
+
+
+// GET data about all genres
+app.get('/genres', async(req, res) => {
+  await Genres.find({}, 'Name Description') // Projection to include only Name and Description fields
+  .then((genres) =>{
+    res.status(200).json(genres)
+  })
+  .catch((err) =>{
+    console.log(err);
+    res.status(500).send('Error: ' + err)
+  });
+});
+
 
 // GET data about a Director
 app.get('/directors/:directorName', async(req, res) => {
