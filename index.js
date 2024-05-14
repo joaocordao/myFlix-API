@@ -43,40 +43,26 @@ app.get('/movies/:movieTitle', async(req, res) => {
 });
 
 // GET data about a Genre
-app.get('/genre/:genreName', async(req, res) => {
-  await Genres.findOne({name: req.params.genreName})
-  .then((genre) =>{
-    res.status(201).json(genre)
+app.get('/movies/genre/:genreName', async(req, res) => {
+  await Movies.findOne({"Genre.Name": req.params.genreName})
+  .then((movie) =>{
+    res.status(201).json(movie.Genre)
   })
   .catch((err) =>{
     console.log(err);
-    res.send(500).send('Error: ' + err)
+    res.send(500).send('Genre not found.');
   });
 });
-
-
-// GET data about all genres
-app.get('/genres', async(req, res) => {
-  await Genres.find({}, 'Name Description') // Projection to include only Name and Description fields
-  .then((genres) =>{
-    res.status(200).json(genres)
-  })
-  .catch((err) =>{
-    console.log(err);
-    res.status(500).send('Error: ' + err)
-  });
-});
-
 
 // GET data about a Director
-app.get('/directors/:directorName', async(req, res) => {
-    await Directors.findOne({name: req.params.directorName})
-    .then((directors) =>{
-      res.status(201).json(directors)
+app.get('/movies/director/:directorName', async(req, res) => {
+    await Movies.findOne({'Director.Name': req.params.directorName})
+    .then((movie) =>{
+      res.status(201).json(movie.Director)
     })
     .catch((err) =>{
       console.log(err);
-      res.send(500).send('Error: ' + err)
+      res.send(500).send('Director not found.');
     });
   });
 
@@ -168,39 +154,23 @@ app.put('/users/:Username', async (req, res) => {
       console.error(err);
       res.status(500).send('Error: ' + err);
     })
-  
   });
 
-// CREATE Add a movie to a user's list of favorites
-app.post('/users/:username/movies/:movieName', async (req, res) => {
-    await Users.findOneAndUpdate({ username: req.params.username },
-       { $push: { favoriteMovies: req.params.movieName }
-    },
-    { new: true }) 
+// Allow users to add a movie to their list of favorites
+app.post("/users/:Username/movies/:MovieID", (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.Username },
+    { $push: { FavoriteMovies: req.params.MovieID },},
+    { new: true }
+  ) // This line makes sure that the updated document is returned
     .then((updatedUser) => {
       res.json(updatedUser);
     })
     .catch((err) => {
       console.error(err);
-      res.status(500).send('Error: ' + err);
+      res.status(500).send("Error: " + err);
     });
   });
-
-
-// DELETE
-app.delete('/users/:id/:movieTitle', (req, res) => {
-    const { id, movieTitle } = req.params;
- 
-    let user = users.find( user => user.id == id);
-
-    if (user) {
-        user.favoriteMovies = user.favoriteMovies.filter( title => title !== movieTitle);
-        res.status(200).send(`${movieTitle} has been removed from user ${id}'s array`);
-    } else {
-        res.status(400).send('no such user')
-    }
-})
-
 
 // DELETE Delete a user by username
 app.delete('/users/:Username', async (req, res) => {
@@ -218,35 +188,24 @@ app.delete('/users/:Username', async (req, res) => {
       });
   });
 
-// DELETE Allow users to remove a movie from their list of favorites
-app.delete('/users/:username/movies/:movieID', (req, res) => {
-    const { username, movieID } = req.params;
-    Users.findOneAndUpdate(
-      { Username: username },
-      { $pull: { FavoriteMovies: movieID } },
-      { new: true }
-    )
-    .then((updatedUser) => {
-      if (!updatedUser) {
-        res.status(404).send('User not found');
+// Allow users to remove a movie from their list of favorites
+
+app.delete("/users/:Username/:MovieID", (req, res) => {
+  Users.findOneAndDelete({ Username: req.params.Username })
+    .then((user) => {
+      if (!user) {
+        res.status(404).send(req.params.Username + " was not found");
       } else {
-        res.status(200).send('Movie removed from favorites');
+        res.status(200).send(req.params.Username + " was deleted.");
       }
     })
     .catch((err) => {
       console.error(err);
-      res.status(500).send('Error: ' + err.message);
+      res.status(500).send("Error: " + err.message); // Sending the error message to the client
     });
   });
 
-// READ
-//app.get('/movies', (req, res) => {
-//    let movieListHTML = '<h2>Top Ten Movies:</h2>';
-//    movies.forEach(movie => {
-//        movieListHTML += `<p><strong>Title:</strong> ${movie.Title}<br><strong>Director:</strong> ${movie.Director}<br><strong>Genre:</strong> ${movie.Genre}</p>`;
-//    });
-//    res.send(movieListHTML);
-//});
+
 
 app.get('/', (req, res) => {
     res.send('Welcome to MyFlix, movie lovers of the World!')

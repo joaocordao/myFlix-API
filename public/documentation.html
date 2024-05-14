@@ -46,21 +46,14 @@
   <tr>
     <td>Return data about a genre by name</td>
     <td>GET</td>
-    <td>/genres/:genreName</td>
+    <td>/movies/genre/:genreName</td>
     <td>N/A</td>
     <td>Data of the genre</td>
-</tr>
-<tr>
-    <td>Return data about all genres</td>
-    <td>GET</td>
-    <td>/genres</td>
-    <td>N/A</td>
-    <td>List of all genres</td>
-</tr>
- <tr>
+  </tr>
+  <tr>
     <td>Return data about a director by name</td>
     <td>GET</td>
-    <td>/directors/:directorName</td>
+    <td>/movies/director/:directorName</td>
     <td>N/A</td>
     <td>Data of the director</td>
   </tr>
@@ -95,7 +88,7 @@
   <tr>
     <td>Allow users to add a movie to their list of favorites</td>
     <td>POST</td>
-    <td>/users/:username/movies/:movieName</td>
+    <td>/users/:username/movies/:movieID</td>
     <td>N/A</td>
     <td>Confirmation message</td>
   </tr>
