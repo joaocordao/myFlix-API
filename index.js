@@ -34,7 +34,8 @@ let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
 
-mongoose.connect('mongodb://localhost:27017/cfDB');
+// mongoose.connect('mongodb://localhost:27017/cfDB');
+mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(morgan('common'));
 app.use(express.static('public'));
