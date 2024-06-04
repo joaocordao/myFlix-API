@@ -14,21 +14,28 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// set the application to allow requests from all origins
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+app.use(cors());
 
 const { check, validationResult } = require('express-validator');
 
-app.use(cors({
-  origin: (origin, callback) => {
-    if(!origin) return callback(null, true);
-    if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
-      let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
-      return callback(new Error(message ), false);
-    }
-    return callback(null, true);
-  }
-}));
+// option to set the application to allow requests from specific origins (commented out for now)
+
+//let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+
+//const { check, validationResult } = require('express-validator');
+
+//app.use(cors({
+//  origin: (origin, callback) => {
+//    if(!origin) return callback(null, true);
+//    if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
+//      let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
+//      return callback(new Error(message ), false);
+//    }
+//    return callback(null, true);
+//  }
+//}));
 
 let auth = require('./auth')(app);
 const passport = require('passport');
@@ -97,6 +104,7 @@ app.get('/movies/director/:directorName', passport.authenticate('jwt', { session
   Email: String,
   Birthday: Date
 }*/
+
 app.post('/users', 
   // Validation logic here for request
   //you can either use a chain of methods like .not().isEmpty()
