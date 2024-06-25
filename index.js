@@ -8,17 +8,15 @@ const Movies = Models.Movie;
 const Users = Models.User;
 const Directors = Models.Director;
 const Genres = Models.Genre;
-
 const app = express();
-app.use(bodyParser.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// set the application to allow requests from all origins
 const cors = require('cors');
-app.use(cors());
-
 const { check, validationResult } = require('express-validator');
+const passport = require('passport');
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+// set the application to allow requests from all origins
+app.use(cors());
 
 // option to set the application to allow requests from specific origins (commented out for now)
 
@@ -38,7 +36,6 @@ const { check, validationResult } = require('express-validator');
 //}));
 
 let auth = require('./auth')(app);
-const passport = require('passport');
 require('./passport');
 
 // mongoose.connect('mongodb://localhost:27017/cfDB');
@@ -51,7 +48,7 @@ app.use(express.static('public'));
 app.get('/movies', async (req, res) => {
     await Movies.find()
     .then((movies)=>{
-      res.status(201).json(movies);
+      res.status(200).json(movies);
     })  
     .catch((err) =>{
       console.error(err);
@@ -75,7 +72,7 @@ app.get('/movies/:movieTitle', passport.authenticate('jwt', { session: false }),
 app.get('/movies/genre/:genreName', passport.authenticate('jwt', { session: false }), async(req, res) => {
   await Movies.findOne({"Genre.Name": req.params.genreName})
   .then((movie) =>{
-    res.status(201).json(movie.Genre)
+    res.status(200).json(movie.Genre)
   })
   .catch((err) =>{
     console.log(err);
@@ -87,7 +84,7 @@ app.get('/movies/genre/:genreName', passport.authenticate('jwt', { session: fals
 app.get('/movies/director/:directorName', passport.authenticate('jwt', { session: false }), async(req, res) => {
     await Movies.findOne({'Director.Name': req.params.directorName})
     .then((movie) =>{
-      res.status(201).json(movie.Director)
+      res.status(200).json(movie.Director)
     })
     .catch((err) =>{
       console.log(err);
